@@ -55,4 +55,5 @@ phoneButton.onlick = () => {
         phoneResult.innerHTML = 'ERROR'
         phoneResult.style.color = 'red'
     }
-}       
+}  
+

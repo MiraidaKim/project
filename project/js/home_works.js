@@ -14,19 +14,80 @@ gmailButton.onclick = () => {
     }
 }
 
-const childBlock = document.querySelector('.child_block')
 const parentBlock = document.querySelector('.parent_block')
+const childBlock = document.querySelector('.child_block')
 
 let positionX = 0
+let positionY = 0
 
-function moveRight() {
-    const maxPosition = parentBlock.offsetWidth - childBlock.offsetWidth
+const offsetWidth = parentBlock.clientWidth - childBlock.offsetWidth
+const offsetHeight = parentBlock.clientHeight - childBlock.offsetHeight
 
-    if (positionX < maxPosition) {
-        positionX += 5
-        childBlock.style.left = `${positionX}px`
-        requestAnimationFrame(moveRight)
+let direction = 'right'
+const speed = 10 
+
+const moveRight = () => {
+    requestAnimationFrame(moveRight)
+
+    childBlock.style.left = `${positionX}px`
+    childBlock.style.top = `${positionY}px`
+
+    if (direction === 'right') {
+        if (positionX < offsetWidth) {
+            positionX += speed
+        } else {
+            direction = 'down'
+        }
+    } else if (direction === 'down') {
+        if (positionY < offsetHeight) {
+            positionY += speed
+        } else {
+            direction = 'left'
+        }
+    } else if (direction === 'left') {
+        if (positionX > 0) {
+            positionX -= speed
+        } else {
+            direction = 'up'
+        }
+    } else if (direction === 'up') {
+        if (positionY > 0) {
+            positionY -= speed
+        } else {
+            direction = 'right'
+        }
     }
 }
 
-moveRight() 
+moveRight()
+
+const startBtn = document.querySelector('#start')
+const stopBtn = document.querySelector('#stop')
+const resetBtn = document.querySelector('#reset')
+const display = document.querySelector('#seconds')
+
+let counter = 0
+let intervalId = null
+
+startBtn.addEventListener('click', () => {
+  if (intervalId === null) {
+    intervalId = setInterval(() => {
+      counter++
+      display.textContent = counter
+    }, 1000)
+  }
+})
+
+stopBtn.addEventListener('click', () => {
+  if (intervalId !== null) {
+    clearInterval(intervalId)
+    intervalId = null
+  }
+})
+
+resetBtn.addEventListener('click', () => {
+  clearInterval(intervalId)
+  intervalId = null
+  counter = 0
+  display.textContent = counter
+})
