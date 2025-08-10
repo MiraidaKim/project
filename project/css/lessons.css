@@ -64,6 +64,7 @@
     padding: 10px;
     height: 30px;
     color: white;
+    background: var(--black);
     border: 1px solid var(--orange);
     text-align: center;
     font-size: 20px;
