@@ -1,0 +1,20 @@
+[
+    {
+        "name": "Васко",
+        "age": 18,
+        "role": "Лидер банды Горячие кулаки, стиль боя - муай тай",
+        "person_photo": "https://preview.redd.it/vasco-is-the-best-character-in-lookism-disagree-your-v0-pmaockwo23ha1.png?auto=webp&s=10294bacb222dd0cc105ddf1aa8711f211419e62"
+    },
+    {
+        "name": "Йохан",
+        "age": 17,
+        "role": "Лидер банды God Dog, копирует любые стили боя",
+        "person_photo": "https://i.pinimg.com/236x/aa/c6/16/aac6166fcd8a2403fdf99fa07c25bf0a.jpg"
+    },
+    {
+        "name": "Дже Ель",
+        "age": 18,
+        "role": "Загадочный персонаж, стиль боя - система  ",
+        "person_photo": "https://staticgr.rmr.rocks/uploads/pics/05/84/207.jpg"
+    }
+]

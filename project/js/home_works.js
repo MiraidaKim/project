@@ -91,3 +91,51 @@ resetBtn.addEventListener('click', () => {
   counter = 0
   display.textContent = counter
 })
+
+
+// characters.json
+const charactersList = document.querySelector('.characters-list');
+
+const request = new XMLHttpRequest();
+request.open('GET', '../data/characters.json'); 
+request.setRequestHeader('Content-type', 'application/json');
+request.send();
+
+request.onload = () => {
+    if (request.status === 200) {
+        const characters = JSON.parse(request.response);
+        charactersList.innerHTML = ''; 
+
+        characters.forEach(person => {
+            const card = document.createElement('div');
+            card.classList.add('character-card');
+
+            card.innerHTML = `
+                <div class="character-photo">
+                    <img src="${person.person_photo}" alt="${person.name}">
+                </div>
+                <h3>${person.name}</h3>
+                <p>Возраст: ${person.age}</p>
+                <p>Роль: ${person.role}</p>
+            `;
+
+            charactersList.appendChild(card);
+        });
+    } 
+};
+
+
+
+// bio.json
+const bioRequest = new XMLHttpRequest();
+bioRequest.open('GET', '../data/bio.json');
+bioRequest.setRequestHeader('Content-type', 'application/json');
+bioRequest.send();
+
+bioRequest.onload = function () {
+    if (bioRequest.status === 200) {
+        const bio = JSON.parse(bioRequest.response);
+        console.log(bio);
+    }
+};
+

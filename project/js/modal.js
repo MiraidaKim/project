@@ -22,17 +22,13 @@ modal.onclick = (event) => {
     }
 }
 
-// Автоматическое открытие через 10 секунд
 setTimeout(openModal, 10000)
 
-// Функция для открытия модалки при скролле в конец страницы
 const showModalOnScroll = () => {
     if (window.innerHeight + window.scrollY >= document.body.scrollHeight) {
         openModal()
-        // удаляем обработчик, чтобы больше не вызывалось
         window.removeEventListener('scroll', showModalOnScroll)
     }
 }
 
-// Добавляем обработчик события скролла
 window.addEventListener('scroll', showModalOnScroll)
