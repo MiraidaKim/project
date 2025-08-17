@@ -1,62 +1,4 @@
 
-
-// Регулярные выражения - Regular Expressions
-
-// flags - флаги:
-// i - ignore case - игнорировать регистр
-// g - global - глобальный поиск
-// m - multiline - многострочный режим
-// y - sticky - поиск с текущей позиции, то есть ищет с конца 
-
-// const name = prompt('Введите имя')
-
-// const regExp = /n/ig
-
-// console.log(name.match(regExp) )
-
-// digits - цифры
-
-// const numbers = '1234567890'
-
-// // const regExp = /[^0-9a-zA-Z_]|[0-9a-zA-Z_]/g
-// // const regExp = /w|\W/g
-// const regExp = /\S/g
-
-// console.log(numbers.match(regExp, '*') )
-// // console.log(numbers.match(regExp))
-
-// recursion - рекурсия
-
-// let num = 0
-
-// const count = () => {
-//     num++
-//     console.log(num)
-//     if (num < 500) {
-//        requestAnimationFrame(count) //FPS - frames per second (60 кадров в секунду)
-//     }
-// }
-
-// count()
-
-// PHONE BLOCK
-
-// const phoneInput = document.querySelector('#phone-input')
-// const phoneButton = document.querySelector('#phone-button')
-// const phoneResult = document.querySelector('#phone-result') 
-
-// const regExp = /^\+996 [2579]\d{2} \d{2}-\d{2}-\d{2}$/
- 
-// phoneButton.onlick = () => {
-//     if (regExp.test(phoneInput.value)) {
-//         phoneResult.innerHTML = 'OK'
-//         phoneResult.style.color = 'green'
-//     } else {
-//         phoneResult.innerHTML = 'ERROR'
-//         phoneResult.style.color = 'red'
-//     }
-// }  
-
 // TAB SLIDER
 
 const tabContentBlocks = document.querySelectorAll('.tab_content_block')
@@ -103,3 +45,58 @@ setInterval(() => {
     hideTabContent()
     showTabContent(currentIndex)
 }, 10000) 
+
+
+
+//  CONVERTER 
+
+// Берём все 3 инпута
+const usdInput = document.querySelector('#usd')
+const somInput = document.querySelector('#som')
+// 🔹 ИСПРАВЛЕНО: id в HTML был "eur", а не "euro"
+const euroInput = document.querySelector('#eur')
+
+// 🔹 Универсальная функция конвертера
+// element — откуда вводим, target1 и target2 — куда пересчитываем
+const converter = (element, target1, target2) => {
+    element.oninput = () => {
+        const request = new XMLHttpRequest()
+        request.open('GET', '../data/converter.json')
+        request.setRequestHeader('Content-Type', 'application/json')
+        request.send()
+
+        request.onload = () => {
+            const data = JSON.parse(request.response)
+
+            // 🔹 Логика конвертации для всех трёх валют
+            if (element.id === 'som') {
+                target1.value = (element.value / data.usd).toFixed(2)   // сом → доллар
+                target2.value = (element.value / data.eur).toFixed(2)  // сом → евро
+            }
+            if (element.id === 'usd') {
+                target1.value = (element.value * data.usd).toFixed(2)           // доллар → сом
+                target2.value = ((element.value * data.usd) / data.eur).toFixed(2) // доллар → евро
+            }
+            if (element.id === 'eur') {
+                target1.value = (element.value * data.eur).toFixed(2)          // евро → сом
+                target2.value = ((element.value * data.eur) / data.usd).toFixed(2) // евро → доллар
+            }
+
+            // 🔹 Если поле пустое — чистим другие 
+             if (element.value === '') {
+                target1.value = ''
+            }
+        }
+    }
+}
+
+// 🔹 Вызов функции для всех трёх инпутов
+converter(somInput, usdInput, euroInput)
+converter(usdInput, somInput, euroInput)
+converter(euroInput, somInput, usdInput)
+
+
+
+// DRY - don't repeat yourself
+// KISS - keep it simple, stupid
+    
