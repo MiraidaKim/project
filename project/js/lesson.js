@@ -1,4 +1,3 @@
-
 // TAB SLIDER
 
 const tabContentBlocks = document.querySelectorAll('.tab_content_block')
