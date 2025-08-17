@@ -50,14 +50,10 @@ setInterval(() => {
 
 //  CONVERTER 
 
-// Берём все 3 инпута
 const usdInput = document.querySelector('#usd')
 const somInput = document.querySelector('#som')
-// 🔹 ИСПРАВЛЕНО: id в HTML был "eur", а не "euro"
 const euroInput = document.querySelector('#eur')
 
-// 🔹 Универсальная функция конвертера
-// element — откуда вводим, target1 и target2 — куда пересчитываем
 const converter = (element, target1, target2) => {
     element.oninput = () => {
         const request = new XMLHttpRequest()
@@ -68,21 +64,19 @@ const converter = (element, target1, target2) => {
         request.onload = () => {
             const data = JSON.parse(request.response)
 
-            // 🔹 Логика конвертации для всех трёх валют
             if (element.id === 'som') {
-                target1.value = (element.value / data.usd).toFixed(2)   // сом → доллар
-                target2.value = (element.value / data.eur).toFixed(2)  // сом → евро
+                target1.value = (element.value / data.usd).toFixed(2) 
+                target2.value = (element.value / data.eur).toFixed(2) 
             }
             if (element.id === 'usd') {
-                target1.value = (element.value * data.usd).toFixed(2)           // доллар → сом
-                target2.value = ((element.value * data.usd) / data.eur).toFixed(2) // доллар → евро
+                target1.value = (element.value * data.usd).toFixed(2)           
+                target2.value = ((element.value * data.usd) / data.eur).toFixed(2) 
             }
             if (element.id === 'eur') {
-                target1.value = (element.value * data.eur).toFixed(2)          // евро → сом
-                target2.value = ((element.value * data.eur) / data.usd).toFixed(2) // евро → доллар
+                target1.value = (element.value * data.eur).toFixed(2)          
+                target2.value = ((element.value * data.eur) / data.usd).toFixed(2) // 
             }
 
-            // 🔹 Если поле пустое — чистим другие 
              if (element.value === '') {
                 target1.value = ''
             }
@@ -90,7 +84,6 @@ const converter = (element, target1, target2) => {
     }
 }
 
-// 🔹 Вызов функции для всех трёх инпутов
 converter(somInput, usdInput, euroInput)
 converter(usdInput, somInput, euroInput)
 converter(euroInput, somInput, usdInput)
