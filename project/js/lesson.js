@@ -50,14 +50,11 @@ setInterval(() => {
 
 //  CONVERTER 
 
-// Берём все 3 инпута
 const usdInput = document.querySelector('#usd')
 const somInput = document.querySelector('#som')
-// 🔹 ИСПРАВЛЕНО: id в HTML был "eur", а не "euro"
 const euroInput = document.querySelector('#eur')
 
-// 🔹 Универсальная функция конвертера
-// element — откуда вводим, target1 и target2 — куда пересчитываем
+
 const converter = (element, target1, target2) => {
     element.oninput = () => {
         const request = new XMLHttpRequest()
@@ -68,21 +65,19 @@ const converter = (element, target1, target2) => {
         request.onload = () => {
             const data = JSON.parse(request.response)
 
-            // 🔹 Логика конвертации для всех трёх валют
             if (element.id === 'som') {
-                target1.value = (element.value / data.usd).toFixed(2)   // сом → доллар
-                target2.value = (element.value / data.eur).toFixed(2)  // сом → евро
+                target1.value = (element.value / data.usd).toFixed(2)   
+                target2.value = (element.value / data.eur).toFixed(2)  
             }
             if (element.id === 'usd') {
-                target1.value = (element.value * data.usd).toFixed(2)           // доллар → сом
-                target2.value = ((element.value * data.usd) / data.eur).toFixed(2) // доллар → евро
+                target1.value = (element.value * data.usd).toFixed(2)        
+                target2.value = ((element.value * data.usd) / data.eur).toFixed(2) 
             }
             if (element.id === 'eur') {
-                target1.value = (element.value * data.eur).toFixed(2)          // евро → сом
-                target2.value = ((element.value * data.eur) / data.usd).toFixed(2) // евро → доллар
+                target1.value = (element.value * data.eur).toFixed(2)          
+                target2.value = ((element.value * data.eur) / data.usd).toFixed(2) 
             }
 
-            // 🔹 Если поле пустое — чистим другие 
              if (element.value === '') {
                 target1.value = ''
             }
@@ -90,7 +85,6 @@ const converter = (element, target1, target2) => {
     }
 }
 
-// 🔹 Вызов функции для всех трёх инпутов
 converter(somInput, usdInput, euroInput)
 converter(usdInput, somInput, euroInput)
 converter(euroInput, somInput, usdInput)
@@ -100,3 +94,42 @@ converter(euroInput, somInput, usdInput)
 // DRY - don't repeat yourself
 // KISS - keep it simple, stupid
     
+
+
+
+
+window.onload = () => {
+    const btnNext = document.querySelector('.btn_next')
+    const btnPrev = document.querySelector('.btn_prev')
+    const card = document.querySelector('.card')
+    let cardId = 1
+
+    async function loadCard(id) {
+        try {
+            const response = await fetch(`https://jsonplaceholder.typicode.com/todos/${id}`)
+            const data = await response.json()
+            const { title, id: todoId, completed } = data
+            const color = completed ? 'green' : 'red'
+            card.style.borderColor = color
+            card.innerHTML = `
+                <p>${title}</p>
+                <p style="color: ${color}">${completed}</p>
+                <span>${todoId}</span>
+            `
+        } catch (error) {
+            console.log('Ошибка при загрузке карточки:', error)
+        }
+    }
+
+    btnNext.onclick = () => {
+        cardId = cardId >= 200 ? 1 : cardId + 1
+        loadCard(cardId)
+    }
+
+    btnPrev.onclick = () => {
+        cardId = cardId <= 1 ? 200 : cardId - 1
+        loadCard(cardId)
+    }
+
+    
+}
