@@ -1,4 +1,3 @@
-
 // TAB SLIDER
 
 const tabContentBlocks = document.querySelectorAll('.tab_content_block')
@@ -54,7 +53,6 @@ const usdInput = document.querySelector('#usd')
 const somInput = document.querySelector('#som')
 const euroInput = document.querySelector('#eur')
 
-
 const converter = (element, target1, target2) => {
     element.oninput = () => {
         const request = new XMLHttpRequest()
@@ -70,11 +68,17 @@ const converter = (element, target1, target2) => {
                 target2.value = (element.value / data.eur).toFixed(2)  
             }
             if (element.id === 'usd') {
-                target1.value = (element.value * data.usd).toFixed(2)        
+                target1.value = (element.value * data.usd).toFixed(2) 
+                target1.value = (element.value / data.usd).toFixed(2) 
+                target2.value = (element.value / data.eur).toFixed(2) 
+            }
+            if (element.id === 'usd') {
+                target1.value = (element.value * data.usd).toFixed(2)          
                 target2.value = ((element.value * data.usd) / data.eur).toFixed(2) 
             }
             if (element.id === 'eur') {
                 target1.value = (element.value * data.eur).toFixed(2)          
+                target2.value = ((element.value * data.eur) / data.usd).toFixed(2) 
                 target2.value = ((element.value * data.eur) / data.usd).toFixed(2) 
             }
 
@@ -93,10 +97,6 @@ converter(euroInput, somInput, usdInput)
 
 // DRY - don't repeat yourself
 // KISS - keep it simple, stupid
-    
-
-
-
 
 window.onload = () => {
     const btnNext = document.querySelector('.btn_next')
